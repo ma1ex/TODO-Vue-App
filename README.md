@@ -1,4 +1,4 @@
 # TODO Vue.js Application
 
 
-Список задач на фрейворке Vue.js
+Список задач на фреймворке Vue.js
