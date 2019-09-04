@@ -1,0 +1,45 @@
+# dependencies
+node_modules
+/dist
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+/tests
+
+# production
+/build
+
+# Environment
+.git
+
+# IDE
+.jshintrc
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# misc
+.DS_Store
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Other
+TODO.md
+/ignored
+
+
+
