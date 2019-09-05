@@ -15,9 +15,9 @@ node_modules
 .git
 
 # IDE
-.jshintrc
 .idea
 .vscode
+.jshintrc
 *.suo
 *.ntvs*
 *.njsproj
