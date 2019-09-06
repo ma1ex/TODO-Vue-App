@@ -32,10 +32,10 @@
 
 <style scoped>
     form {
-        margin: 5px auto;
+        margin-right: 5px;
     }
 
     input {
-        width: 400px;
+        width: 500px;
     }
 </style>

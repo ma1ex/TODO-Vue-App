@@ -48,8 +48,7 @@
     }
 
     .remove:hover {
-        background: red;
-        color: white;
+        background: #F3E0E0;
         border-radius: 50%;
         cursor: pointer;
     }

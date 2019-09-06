@@ -1,14 +1,27 @@
 <template>
     <div id="app">
-        <h1>todos</h1>
-        <AddTodo @add-todo="addTodo" />
+        <h1>todos<sup v-if="this.todos.length > 0">{{ this.todos.length }}</sup></h1>
+        <div class="col-2">
+            <AddTodo @add-todo="addTodo" />
+            <select v-model="filter">
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="completed">Completed</option>
+            </select>
+        </div>
+        
+
         <hr>
+
         <Loader v-if="loading" />
         <TodoList 
-            v-else-if="todos.length"
-            v-bind:todos="todos" 
+            v-else-if="filterTodos.length"
+            v-bind:todos="filterTodos" 
             @remove-todo="removeTodo" />
-        <p v-else>No todos!</p>
+        <div v-else>
+            <p>No todos!</p>
+            <p>Type text in the input field to add a new todo item.</p>
+        </div>
     </div>
 </template>
 
@@ -16,7 +29,6 @@
     import TodoList from '@/components/todo-list';
     import AddTodo from '@/components/add-todo';
     import Loader from '@/components/loader';
-import { setTimeout } from 'timers';
 
     export default {
         name: "app",
@@ -27,7 +39,8 @@ import { setTimeout } from 'timers';
                     {id: 2, title: 'Купить масло', completed: false},
                     {id: 3, title: 'Купить молоко', completed: false},
                 ],
-                loading: true
+                loading: true,
+                filter: 'all'
             }
         },
 
@@ -42,6 +55,22 @@ import { setTimeout } from 'timers';
                         this.loading = false
                     }, 1000)
                 })
+        },
+
+        computed: {
+            filterTodos() {
+                if (this.filter === 'all') {
+                    return this.todos;
+                }
+                
+                if (this.filter === 'completed') {
+                    return this.todos.filter(item => item.completed);
+                }
+                
+                if (this.filter === 'active') {
+                    return this.todos.filter(item => !item.completed);
+                }
+            }
         },
 
         methods: {
@@ -73,12 +102,24 @@ import { setTimeout } from 'timers';
     }
 
     h1 {
-        color: rgba(175, 47, 47, 0.15);
+        font-size: 3rem;
+        color: #F3E0E0;
+    }
+
+    h1 sup {
+        font-size: 1rem;
     }
 
     hr {
         border: solid 1px white;
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .col-2 {
+        width: 700px;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
     }
 
     .indicator {
