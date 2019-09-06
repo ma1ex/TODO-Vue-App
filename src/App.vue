@@ -1,12 +1,16 @@
 <template>
     <div id="app">
         <h1>todos</h1>
-        <TodoList v-bind:todos="todos" />
+        <AddTodo @add-todo="addTodo" />
+        <hr>
+        <TodoList v-bind:todos="todos" @remove-todo="removeTodo" />
     </div>
 </template>
 
 <script>
     import TodoList from '@/components/todo-list';
+    import AddTodo from '@/components/add-todo';
+
     export default {
         name: "app",
         data() {
@@ -18,8 +22,25 @@
                 ]
             }
         },
+
+        /* mounted() {
+            fetch('https://jsonplaceholder.typicode.com/todos?_limit=3')
+                .then(response => response.json())
+                .then(json => {this.todos = json})
+        }, */
+
+        methods: {
+            removeTodo(id) {
+                this.todos = this.todos.filter(item => item.id !== id);
+            },
+            addTodo(todo) {
+                this.todos.push(todo);
+            }
+        },
+
         components: {
-            TodoList
+            TodoList,
+            AddTodo
         }
     };
 </script>
@@ -31,10 +52,15 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
-        margin-top: 60px;
+        margin: 60px auto 20px auto;
+        width: 700px;
     }
 
     h1 {
         color: rgba(175, 47, 47, 0.15);
+    }
+
+    .indicator {
+        border: solid 1px fuchsia;
     }
 </style>

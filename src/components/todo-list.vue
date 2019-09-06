@@ -1,21 +1,28 @@
 <template>
     <div>
         <ul>
-            <li v-for="todo of todos">
-                <TodoItem v-bind:todo="todo" />
-            </li>
+            <TodoItem v-for="(todo, i) of todos" 
+                v-bind:todo="todo"
+                v-bind:index="i"
+                v-on:remove-todo="removeTodo" />
         </ul>
     </div>
 </template>
 
 <script>
     import TodoItem from './todo-item';
+
     export default {
         props: [
             'todos'
         ],
         components: {
             TodoItem
+        },
+        methods: {
+            removeTodo(id) {
+                this.$emit('remove-todo', id);
+            }
         }
     }
 </script>
@@ -25,13 +32,5 @@
         list-style: none;
         margin: 0;
         padding: 0;
-    }
-
-    li {
-        display: flex;
-        justify-content: space-between;
-        margin: 1rem;
-        padding: .5rem 2rem;
-        border: solid 1px lightgray;
     }
 </style>

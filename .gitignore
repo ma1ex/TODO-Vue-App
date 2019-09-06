@@ -1,6 +1,5 @@
 # dependencies
 node_modules
-/dist
 /.pnp
 .pnp.js
 
@@ -10,6 +9,7 @@ node_modules
 
 # production
 /build
+/dist
 
 # Environment
 .git
