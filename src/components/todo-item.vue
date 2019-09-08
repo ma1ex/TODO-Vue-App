@@ -1,10 +1,11 @@
 <template>
-    <li>
-        <span v-bind:class="{done: todo.completed}">
-            <input type="checkbox" v-on:change="todo.completed = !todo.completed">
-            <strong>{{ index + 1 }}</strong> {{ todo.title | uppercase }}
-        </span>
-        <button class="remove" title="Delete" v-on:click="$emit('remove-todo', todo.id)">&times;</button>
+    <li class="todo">
+        <div class="view">
+            <input class="toggle" type="checkbox" v-on:change="todo.completed = !todo.completed"> 
+            <label v-bind:class="{done: todo.completed}">{{ todo.title }}</label> 
+            <button class="destroy" title="Delete" v-on:click="$emit('remove-todo', todo.id)"></button>
+        </div>
+        <!-- <input class="edit" type="text"> -->
     </li>
 </template>
 
@@ -27,37 +28,8 @@
     }
 </script>
 
-<style scoped>
-    li {
-        display: flex;
-        justify-content: space-between;
-        margin: 1rem;
-        padding: .5rem 2rem;
-        background: rgba(0, 0, 0, 0.003);
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-    }
-
-    .remove {
-        width: 30px;
-        height: 30px;
-        background: none;
-        color: gray;
-        font-weight: bold;
-        border: none;
-
-    }
-
-    .remove:hover {
-        background: #F3E0E0;
-        border-radius: 50%;
-        cursor: pointer;
-    }
-
-    input {
-        margin-right: 1rem;
-    }
-
-    .done {
+<style>
+    /* .done {
         text-decoration: line-through;
-    }
+    } */
 </style>
