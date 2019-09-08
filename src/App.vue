@@ -2,13 +2,8 @@
     <section id="app" class="todoapp">
         <header class="header">
 			<img src="./assets/icon.png" alt="todo logo">
-			<h1>todos<sup v-if="this.todos.length > 0">{{ this.todos.length }}</sup></h1> 
+			<h1>todos</h1> 
             <AddTodo @add-todo="addTodo" />
-            <!-- <select v-model="filter">
-                <option value="all">All</option>
-                <option value="active">Active</option>
-                <option value="completed">Completed</option>
-            </select> -->
 		</header>
 
         <section class="main" style="">
@@ -20,20 +15,27 @@
                 v-else-if="filterTodos.length"
                 v-bind:todos="filterTodos" 
                 @remove-todo="removeTodo" />
-            <div v-else>
+            <!-- <div v-else>
                 <p>No todos!</p>
                 <p>Type text in the input field to add a new todo item.</p>
-            </div>
+            </div> -->
 		</section>
         
-        <footer class="footer" style="">
-            <span class="todo-count"><strong>2</strong> items left</span> 
-            <ul class="filters">
+        <footer class="footer" v-if="this.todos.length !== 0">
+            <select v-model="filter" class="filters">
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="completed">Completed</option>
+            </select>
+            
+            <span class="todo-count"><strong>{{ this.todos.length }}</strong> items left</span>
+            <!-- <ul class="filters">
                 <li><a href="#/all" class="selected">All</a></li> 
                 <li><a href="#/active" class="">Active</a></li> 
                 <li><a href="#/completed" class="">Completed</a></li>
-            </ul> 
+            </ul>  -->
             <button class="clear-completed" style="display: none;">Clear completed</button>
+            
         </footer>
     
     </section>
@@ -420,8 +422,8 @@
         padding: 0;
         list-style: none;
         position: absolute;
-        right: 0;
-        left: 0;
+        /* right: 0;
+        left: 0; */
     }
 
     .filters li {

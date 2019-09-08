@@ -4,9 +4,10 @@
 
 <style scoped>
     .lds-dual-ring {
-        display: inline-block;
+        /* display: inline-block; */
         width: 64px;
         height: 64px;
+        margin: 0 auto;
     }
 
     .lds-dual-ring:after {
