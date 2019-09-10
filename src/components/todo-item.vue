@@ -1,8 +1,8 @@
 <template>
-    <li class="todo">
+    <li class="todo" v-bind:class="{completed: todo.completed}">
         <div class="view">
             <input class="toggle" type="checkbox" v-on:change="todo.completed = !todo.completed"> 
-            <label v-bind:class="{done: todo.completed}">{{ todo.title }}</label> 
+            <label>{{ todo.title }}</label> 
             <button class="destroy" title="Delete" v-on:click="$emit('remove-todo', todo.id)"></button>
         </div>
         <!-- <input class="edit" type="text"> -->
@@ -29,7 +29,8 @@
 </script>
 
 <style>
-    /* .done {
+    .done {
         text-decoration: line-through;
-    } */
+        color: gray;
+    }
 </style>

@@ -58,23 +58,21 @@
                     {id: 2, title: 'Купить масло', completed: false},
                     {id: 3, title: 'Купить молоко', completed: false},
                 ],
-                loading: true,
+                loading: false,
                 filter: 'all'
             }
         },
 
-        mounted() {
+        /* mounted() {
             fetch('https://jsonplaceholder.typicode.com/todos?_limit=3')
                 .then(response => response.json())
                 .then(json => {
-                    // this.todos = json;
-                    // this.loading = false
                     setTimeout(() => {
                         this.todos = json;
                         this.loading = false
                     }, 1000)
                 })
-        },
+        }, */
 
         computed: {
             filterTodos() {
