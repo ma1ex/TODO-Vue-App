@@ -10,10 +10,11 @@
 			<input id="toggle-all" class="toggle-all" type="checkbox"> 
 			<label for="toggle-all">Mark all as complete</label> 
 			
+            <!-- v-else-if="switchServer.length" -->
             <Loader v-if="loading" />
             <TodoList 
-                v-else-if="filterTodos.length"
-                v-bind:todos="filterTodos" 
+                v-else-if="switchServer.length"
+                v-bind:todos="switchServer" 
                 @remove-todo="removeTodo" />
             <!-- <div v-else>
                 <p>No todos!</p>
@@ -22,6 +23,11 @@
 		</section>
         
         <footer class="footer" v-if="this.todos.length !== 0">
+            <select v-model="server" style="position: absolute; left:100px;">
+                <option value="local">Local</option>
+                <option value="remote">Remote</option>
+            </select>
+            
             <select v-model="filter" class="filters">
                 <option value="all">All</option>
                 <option value="active">Active</option>
@@ -29,11 +35,7 @@
             </select>
             
             <span class="todo-count"><strong>{{ this.todos.length }}</strong> items left</span>
-            <!-- <ul class="filters">
-                <li><a href="#/all" class="selected">All</a></li> 
-                <li><a href="#/active" class="">Active</a></li> 
-                <li><a href="#/completed" class="">Completed</a></li>
-            </ul>  -->
+            
             <button class="clear-completed" style="display: none;">Clear completed</button>
             
         </footer>
@@ -58,12 +60,15 @@
                     {id: 2, title: 'Купить масло', completed: false},
                     {id: 3, title: 'Купить молоко', completed: false},
                 ],
-                loading: false,
-                filter: 'all'
+                cash: [],
+                loading: true,
+                filter: 'all',
+                server: 'remote'
             }
         },
 
-        /* mounted() {
+        mounted() {
+            this.cash = this.todos;
             fetch('https://jsonplaceholder.typicode.com/todos?_limit=3')
                 .then(response => response.json())
                 .then(json => {
@@ -72,7 +77,19 @@
                         this.loading = false
                     }, 1000)
                 })
+                /* .catch(
+                    this.loading = false
+                ) */
+        },
+        /* mounted() {
+            this.cash = this.todos;
         }, */
+
+        watch: {
+            server(value) {
+                console.log(value);
+            }
+        },
 
         computed: {
             filterTodos() {
@@ -86,6 +103,18 @@
                 
                 if (this.filter === 'active') {
                     return this.todos.filter(item => !item.completed);
+                }
+            },
+
+            switchServer() {
+                if (this.server === 'remote') {
+                    return this.todos;
+                }
+
+                if (this.server === 'local') {
+                    this.loading = false;
+                    console.log(this.cash)
+                    return this.cash;
                 }
             }
         },

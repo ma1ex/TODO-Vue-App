@@ -1,6 +1,6 @@
 <template>
     <ul class="todo-list">
-        <TodoItem v-for="(todo, i) of todos" 
+        <TodoItem v-for="(todo, i) of todos" :key="todo.id" 
             v-bind:todo="todo"
             v-bind:index="i"
             v-on:remove-todo="removeTodo" />
