@@ -16,7 +16,8 @@
             <TodoList 
                 v-if="filterTodos.length"
                 v-bind:todos="filterTodos" 
-                @remove-todo="removeTodo" />
+                @remove-todo="removeTodo"
+                @completed-todo="completedTodo" />
             <!-- <div v-else>
                 <p>No todos!</p>
                 <p>Type text in the input field to add a new todo item.</p>
@@ -24,10 +25,11 @@
 		</section>
         
         <footer class="footer" v-if="this.todos.length !== 0">
-            <select v-model="server" style="position: absolute; left:100px;">
+            <!-- Server switcher -->
+            <!-- <select v-model="server" style="position: absolute; left:100px;">
                 <option value="local">Local</option>
                 <option value="remote">Remote</option>
-            </select>
+            </select> -->
             
             <select v-model="filter" class="filters">
                 <option value="all">All</option>
@@ -35,7 +37,7 @@
                 <option value="completed">Completed</option>
             </select>
             
-            <span class="todo-count"><strong>{{ this.todos.length }}</strong> items left</span>
+            <span class="todo-count">Items: <strong>{{ this.todos.length }}</strong></span>
             
             <button class="clear-completed" style="display: none;">Clear completed</button>
             
@@ -65,18 +67,16 @@
                 cash: [],
                 loading: true,
                 filter: 'all',
-                server: 'remote',
-                store: []
+                server: 'remote'
             }
         },
 
         mounted() {
+            // Get all todos from local storage if they exist
             if (localStorage.getItem('vue-app-todos') !== null) {
                 let getTodos = localStorage.getItem('vue-app-todos');
                 this.todos = JSON.parse(getTodos);
-                /* getTodos.forEach((todo) => {
-                    htmlElement.innerText += item.title + '\n';
-                }); */
+                // this.loading = false;
             }
             // this.cash = this.todos;
             /* fetch('https://jsonplaceholder.typicode.com/todos?_limit=3')
@@ -88,7 +88,7 @@
                     }, 1000)
                 }); */
 
-                console.log(localStorage);
+                console.dir(localStorage);
                 /* .catch(
                     this.loading = false
                 ) */
@@ -97,18 +97,11 @@
             this.cash = this.todos;
         }, */
 
-        beforeDestroy() {
-            
-            const saveTodos = JSON.stringify(this.todos);
-            localStorage.setItem('vue-app-todos', saveTodos);
-            console.log(localStorage);
-        },
-
-        watch: {
-            /* server(value) {
+        /* watch: {
+            server(value) {
                 console.log(value);
-            } */
-        },
+            }
+        }, */
 
         computed: {
             filterTodos() {
@@ -141,12 +134,21 @@
         methods: {
             removeTodo(id) {
                 this.todos = this.todos.filter(item => item.id !== id);
-                const saveTodos = JSON.stringify(this.todos);
-                localStorage.setItem('vue-app-todos', saveTodos);
-                console.log(localStorage);
+                this.saveTodos();
             },
             addTodo(todo) {
                 this.todos.push(todo);
+                this.saveTodos();
+            },
+            completedTodo(id) {
+                this.todos.forEach((todo) => {
+                    if (todo.id === id) {
+                        return todo.completed = !todo.completed;
+                    }
+                });
+                this.saveTodos();
+            },
+            saveTodos() {
                 const saveTodos = JSON.stringify(this.todos);
                 localStorage.setItem('vue-app-todos', saveTodos);
                 console.log(localStorage);
@@ -470,12 +472,17 @@
     }
 
     .filters {
+        width: 200px;
         margin: 0;
         padding: 0;
         list-style: none;
         position: absolute;
         /* right: 0;
         left: 0; */
+    }
+
+    .filters select {
+        width: 300px;
     }
 
     .filters li {

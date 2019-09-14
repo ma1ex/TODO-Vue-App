@@ -1,7 +1,8 @@
 <template>
     <li class="todo" v-bind:class="{completed: todo.completed}">
         <div class="view">
-            <input class="toggle" v-bind:checked="todo.completed" type="checkbox" v-on:change="todo.completed = !todo.completed"> 
+            <!-- <input class="toggle" v-bind:checked="todo.completed" type="checkbox" v-on:change="todo.completed = !todo.completed">  -->
+            <input class="toggle" v-bind:checked="todo.completed" type="checkbox" v-on:change="$emit('completed-todo', todo.id)"> 
             <label>{{ todo.title }}</label> 
             <button class="destroy" title="Delete" v-on:click="$emit('remove-todo', todo.id)"></button>
         </div>
@@ -20,11 +21,11 @@
             index: ''
         },
 
-        filters : {
+        filters: {
             uppercase(value) {
                 return value.toUpperCase();
             }
-        },
+        }
     }
 </script>
 

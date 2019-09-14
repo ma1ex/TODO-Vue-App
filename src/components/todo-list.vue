@@ -3,7 +3,8 @@
         <TodoItem v-for="(todo, i) of todos" :key="todo.id" 
             v-bind:todo="todo"
             v-bind:index="i"
-            v-on:remove-todo="removeTodo" />
+            v-on:remove-todo="removeTodo"
+            v-on:completed-todo="completedTodo" />
     </ul>
 </template>
 
@@ -20,6 +21,9 @@
         methods: {
             removeTodo(id) {
                 this.$emit('remove-todo', id);
+            },
+            completedTodo(id) {
+                this.$emit('completed-todo', id);
             }
         }
     }
