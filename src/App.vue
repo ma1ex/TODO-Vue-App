@@ -10,11 +10,12 @@
 			<input id="toggle-all" class="toggle-all" type="checkbox"> 
 			<label for="toggle-all">Mark all as complete</label> 
 			
-            <!-- v-else-if="switchServer.length" -->
-            <Loader v-if="loading" />
+            <!-- v-else-if="filterTodos.length" -->
+            <!-- v-bind:todos="filterTodos" -->
+            <!-- <Loader v-if="loading" /> -->
             <TodoList 
-                v-else-if="switchServer.length"
-                v-bind:todos="switchServer" 
+                v-if="filterTodos.length"
+                v-bind:todos="filterTodos" 
                 @remove-todo="removeTodo" />
             <!-- <div v-else>
                 <p>No todos!</p>
@@ -55,28 +56,39 @@
         name: "app",
         data() {
             return {
-                todos: [
+                /* todos: [
                     {id: 1, title: 'Купить хлеб', completed: false},
                     {id: 2, title: 'Купить масло', completed: false},
                     {id: 3, title: 'Купить молоко', completed: false},
-                ],
+                ], */
+                todos: [],
                 cash: [],
                 loading: true,
                 filter: 'all',
-                server: 'remote'
+                server: 'remote',
+                store: []
             }
         },
 
         mounted() {
-            this.cash = this.todos;
-            fetch('https://jsonplaceholder.typicode.com/todos?_limit=3')
+            if (localStorage.getItem('vue-app-todos') !== null) {
+                let getTodos = localStorage.getItem('vue-app-todos');
+                this.todos = JSON.parse(getTodos);
+                /* getTodos.forEach((todo) => {
+                    htmlElement.innerText += item.title + '\n';
+                }); */
+            }
+            // this.cash = this.todos;
+            /* fetch('https://jsonplaceholder.typicode.com/todos?_limit=3')
                 .then(response => response.json())
                 .then(json => {
                     setTimeout(() => {
                         this.todos = json;
                         this.loading = false
                     }, 1000)
-                })
+                }); */
+
+                console.log(localStorage);
                 /* .catch(
                     this.loading = false
                 ) */
@@ -85,10 +97,17 @@
             this.cash = this.todos;
         }, */
 
+        beforeDestroy() {
+            
+            const saveTodos = JSON.stringify(this.todos);
+            localStorage.setItem('vue-app-todos', saveTodos);
+            console.log(localStorage);
+        },
+
         watch: {
-            server(value) {
+            /* server(value) {
                 console.log(value);
-            }
+            } */
         },
 
         computed: {
@@ -122,9 +141,15 @@
         methods: {
             removeTodo(id) {
                 this.todos = this.todos.filter(item => item.id !== id);
+                const saveTodos = JSON.stringify(this.todos);
+                localStorage.setItem('vue-app-todos', saveTodos);
+                console.log(localStorage);
             },
             addTodo(todo) {
                 this.todos.push(todo);
+                const saveTodos = JSON.stringify(this.todos);
+                localStorage.setItem('vue-app-todos', saveTodos);
+                console.log(localStorage);
             }
         },
 
